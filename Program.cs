@@ -1,3 +1,4 @@
+using MicroUploadServer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,5 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.MapGet("/", () => "Hello World!");
-
+app.ConfigureRoutes();
 app.Run();
