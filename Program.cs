@@ -24,6 +24,8 @@ builder.Services.Configure<KestrelServerOptions>(options =>
 });
 */
 
+// TODO: setup logging to save to log files. Now it only logs to the console.
+
 var app = builder.Build();
 
 // Add Swagger in development.
