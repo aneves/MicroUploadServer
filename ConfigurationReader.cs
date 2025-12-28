@@ -55,6 +55,13 @@ public static class ConfigurationReader
         {
             case "~":
                 return userFolder;
+            // Special handling of "~/", to keep the trailing slash.
+            // This keeps that result consistent with the other cases that also keep trailing slashes, like "~/foo/".
+            case string _
+                    when path.Length == 2
+                        && (path[1] == Path.DirectorySeparatorChar
+                            || path[1] == Path.AltDirectorySeparatorChar):
+                return userFolder + Path.DirectorySeparatorChar;
             default:
                 return Path.Combine(
                     userFolder,
