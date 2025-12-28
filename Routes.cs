@@ -2,7 +2,7 @@ namespace MicroUploadServer;
 
 public static class Routes
 {
-    public static void ConfigureRoutes(this WebApplication app, Config config)
+    public static void ConfigureRoutes(this WebApplication app, Configuration config)
     {
         var logger = app.Services.GetRequiredService<ILogger<FileUploader>>();
         FileUploader uploader = new(config, logger);

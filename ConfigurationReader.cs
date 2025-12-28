@@ -1,19 +1,8 @@
 namespace MicroUploadServer;
 
-// To set the configuration:
-// - Find the file "config.sample.json" in the executing folder.
-// - Change its name to "config.json".
-// - Edit the settings you want to change.
-// - And restart this application.
-public record class Config
-{
-    // A proper location could be something like: "~/Library/Application Support/MicroUploadServer/UploadedFiles"
-    public string InboxFolder { get; set; } = "~/Desktop/UploadedFiles";
-}
-
 public static class ConfigurationReader
 {
-    public static Config ReadConfig()
+    public static Configuration ReadConfig()
     {
         IConfigurationRoot built = new ConfigurationBuilder()
             .AddJsonFile("config.json", optional: true)
@@ -22,13 +11,13 @@ public static class ConfigurationReader
             // It should be case insensitive, but that has not been tested.
             .AddEnvironmentVariables(prefix: "uploadserver")
             .Build();
-        Config config = built.Get<Config>()
+        Configuration config = built.Get<Configuration>()
             // Default values, if nothing is configured.
             ?? new();
 
         return config with
         {
-            // Replace "~/foo" to "/users/johndoe/foo".
+            // Replace "~/foo" to "/users/alice/foo".
             InboxFolder = ReplaceUnixHomeDir(config.InboxFolder),
         };
     }
@@ -38,7 +27,7 @@ public static class ConfigurationReader
     /// </summary>
     /// <remarks>
     /// This is needed because in C#,
-    /// "~/foo" is not "/home/users/johndoe/foo"
+    /// "~/foo" is not "/home/users/alice/foo"
     /// but something like "app/foo".
     /// </remarks>
     public static string ReplaceUnixHomeDir(string path)

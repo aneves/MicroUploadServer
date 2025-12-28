@@ -13,7 +13,7 @@ To configure the folder where the files are saved:
 2. Edit the values.
 3. And restart the application.
 
-Check the code comments on [ConfigurationReader.cs](ConfigurationReader.cs) for more information about the properties.
+Check the code comments on [Configuration.cs](Configuration.cs) for more information about the properties.
 
 ## Running locally
 

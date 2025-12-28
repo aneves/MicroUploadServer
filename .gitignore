@@ -30,3 +30,10 @@ bld/
 msbuild.log
 msbuild.err
 msbuild.wrn
+
+## End of .Net template gitignore:
+
+
+## Project's gitignore:
+
+config.json

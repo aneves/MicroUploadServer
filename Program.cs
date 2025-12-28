@@ -12,7 +12,7 @@ builder.Services.AddOpenApiDocument(config =>
 });
 
 /*
-TODO: configure max RequestBodysize.
+TODO: configure max RequestBodySize? Otherwise large uploads may fail.
 builder.Services.Configure<IISServerOptions>(options =>
 {
     options.MaxRequestBodySize = int.MaxValue;
@@ -39,7 +39,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-Config config = ConfigurationReader.ReadConfig();
+Configuration config = ConfigurationReader.ReadConfig();
 app.ConfigureRoutes(config);
 
 app.Run();
