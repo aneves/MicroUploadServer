@@ -6,7 +6,7 @@ namespace MicroUploadServer;
 // - This does not handle file collisions.
 // We have to figure out how to organize the files, and if we allow collisions, and how we handle collisions.
 // We might need to receive more information from the sender, and place the file in a folder tree according to that information.
-public class FileUploader(Config config, ILogger<FileUploader> logger)
+public class FileUploader(Configuration config, ILogger<FileUploader> logger)
 {
     /// <summary>
     /// Initializes the prerequisites for the File Uploader to work.
@@ -15,6 +15,7 @@ public class FileUploader(Config config, ILogger<FileUploader> logger)
     {
         // Ensure folder exists.
         Directory.CreateDirectory(config.InboxFolder);
+        logger.LogDebug("Files will be saved in folder '{Folder}'.", config.InboxFolder);
     }
 
     private bool FileNameSeemsSafe(string fileName)
