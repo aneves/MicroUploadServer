@@ -1,0 +1,4 @@
+{
+    "__comment": "The folder where the received files will be saved.",
+    "InboxFolder": "UploadedFiles"
+}

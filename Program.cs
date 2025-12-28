@@ -39,6 +39,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.ConfigureRoutes();
+Config config = ConfigurationReader.ReadConfig();
+app.ConfigureRoutes(config);
 
 app.Run();
