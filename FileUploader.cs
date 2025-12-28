@@ -2,8 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MicroUploadServer;
 
-// TODO:
-// - This does not handle file collisions.
+// TODO: consider file collisions. As it is, we only accept files with unique filenames.
 // We have to figure out how to organize the files, and if we allow collisions, and how we handle collisions.
 // We might need to receive more information from the sender, and place the file in a folder tree according to that information.
 public class FileUploader(Configuration config, ILogger<FileUploader> logger)
@@ -72,8 +71,6 @@ public class FileUploader(Configuration config, ILogger<FileUploader> logger)
         return TypedResults.Ok("File saved.");
     }
 
-    // TODO: check if we received two files with the same name.
-
     private record class FileWithPath(IFormFile File, string TargetFullPath);
     public async Task<IResult> UploadMany([FromForm] IFormFileCollection files)
     {
@@ -106,6 +103,19 @@ public class FileUploader(Configuration config, ILogger<FileUploader> logger)
                 logger.LogInformation("File already exists: file index {Index} named '{FileName}'.", index, file.FileName);
                 return TypedResults.BadRequest($"File already exists for file at index {index}.");
             }
+
+            int existingIndex = filesWithPath.FindIndex(existing => existing.TargetFullPath == filePath);
+            if (existingIndex >= 0)
+            {
+                logger.LogInformation(
+                    "File is repeated: files at index {Index} and {RepeatedIndex} have the same name: '{FileName}'.",
+                    existingIndex,
+                    index,
+                    file.FileName
+                    );
+                return TypedResults.BadRequest($"File repeated for files at indexes {existingIndex} and {index}.");
+            }
+
             filesWithPath.Add(new FileWithPath(file, filePath));
         }
         foreach (FileWithPath item in filesWithPath)
